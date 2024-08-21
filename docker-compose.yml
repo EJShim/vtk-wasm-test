@@ -14,5 +14,3 @@ services :
       depends_on:
         cmake:
           condition: service_completed_successfully
-          restart: false
-  
