@@ -1,8 +1,8 @@
-#include "worker.h"
+#include "manager.h"
 #include <vtkProperty.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 
-Worker::Worker()
+Manager::Manager()
 {
     m_renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     m_renderWindowInteractor->SetInteractorStyle(vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New());
@@ -14,7 +14,7 @@ Worker::Worker()
     m_renderWindowInteractor->PrintSelf(std::cout, indent);
 }
 
-void Worker::Init()
+void Manager::Init()
 {
     vtkNew<vtkConeSource> cone;
     vtkNew<vtkPolyDataMapper> mapper;
@@ -40,7 +40,7 @@ void Worker::Init()
  * 
  * @return  nothing
  */
-void Worker::ChangeRenderWindow()
+void Manager::ChangeRenderWindow()
 {
     //m_RenderWindowInteractor->TerminateApp();
     
@@ -54,19 +54,19 @@ void Worker::ChangeRenderWindow()
 
 }
 
-void Worker::Start()
+void Manager::Start()
 {
     m_renderWindowInteractor->Start();
 
     std::cout << "Start!\n";
 }
 
-void Worker::Terminate()
+void Manager::Terminate()
 {
     m_renderWindowInteractor->TerminateApp(); // same to emscripten_cancel_main_loop
 }
 
-void Worker::ReStart()
+void Manager::ReStart()
 {
     m_renderWindowInteractor->ReInitialize();
     m_renderWindowInteractor->Start();

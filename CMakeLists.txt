@@ -1,4 +1,4 @@
-project(changeCanvasForWASM)
+project(manager)
 
 # -----------------------------------------------------------------------------
 # Handle VTK dependency
@@ -21,7 +21,7 @@ endif ()
 # Compile example code
 # -----------------------------------------------------------------------------
 
-add_executable(${CMAKE_PROJECT_NAME} worker.cpp)
+add_executable(${CMAKE_PROJECT_NAME} manager.cpp)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
   PRIVATE
@@ -42,6 +42,7 @@ list(APPEND emscripten_link_options
   "SHELL:-s MODULARIZE=1"
   "SHELL:-s EXPORT_NAME=tester"
   "SHELL:-s WASM=1"
+  "SHELL:-s EXPORT_ES6=1"
 )
 
 set(emscripten_debug_options)

@@ -11,10 +11,10 @@
 #include <vtkRenderWindowInteractor.h>
 #include <emscripten/bind.h>
 
-class Worker
+class Manager
 {
 public:
-    Worker();
+    Manager();
 
     void Init();
     void Start();
@@ -31,12 +31,12 @@ protected:
 };
 
 
-EMSCRIPTEN_BINDINGS(worker) {
-    emscripten::class_<Worker>("Worker")
+EMSCRIPTEN_BINDINGS(Manager) {
+    emscripten::class_<Manager>("Manager")
         .constructor()
-        .function("Init", &Worker::Init)
-        .function("Start", &Worker::Start)
-        .function("ReStart", &Worker::ReStart)
-        .function("Terminate", &Worker::Terminate)
-        .function("ChangeRenderWindow", &Worker::ChangeRenderWindow);
+        .function("Init", &Manager::Init)
+        .function("Start", &Manager::Start)
+        .function("ReStart", &Manager::ReStart)
+        .function("Terminate", &Manager::Terminate)
+        .function("ChangeRenderWindow", &Manager::ChangeRenderWindow);
 };
