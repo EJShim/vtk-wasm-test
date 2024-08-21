@@ -1,15 +1,17 @@
 #include "worker.h"
 #include <vtkProperty.h>
+#include <vtkInteractorStyleTrackballCamera.h>
 
 Worker::Worker()
 {
-    m_RenderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    m_RenderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-    m_Renderer = vtkSmartPointer<vtkRenderer>::New();
+    m_renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    m_renderWindowInteractor->SetInteractorStyle(vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New());
+    m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+    m_renderer = vtkSmartPointer<vtkRenderer>::New();
 
     vtkIndent indent;
 
-    m_RenderWindowInteractor->PrintSelf(std::cout, indent);
+    m_renderWindowInteractor->PrintSelf(std::cout, indent);
 }
 
 void Worker::Init()
@@ -18,17 +20,17 @@ void Worker::Init()
     vtkNew<vtkPolyDataMapper> mapper;
     mapper->SetInputConnection( cone->GetOutputPort() );
 
-    m_Actor = vtkSmartPointer<vtkActor>::New();
-    m_Actor->SetMapper( mapper );
+    m_actor = vtkSmartPointer<vtkActor>::New();
+    m_actor->SetMapper( mapper );
 
-    m_Renderer->AddActor(m_Actor);
-    m_Renderer->SetBackground( 0, 0, 0 );
+    m_renderer->AddActor(m_actor);
+    m_renderer->SetBackground( 0, 0, 0 );
 
-    m_RenderWindow->AddRenderer( m_Renderer );
-    m_RenderWindowInteractor->SetRenderWindow( m_RenderWindow );
+    m_renderWindow->AddRenderer( m_renderer );
+    m_renderWindowInteractor->SetRenderWindow( m_renderWindow );
 
-    m_Renderer->ResetCamera();
-    m_RenderWindow->Render();
+    m_renderer->ResetCamera();
+    m_renderWindow->Render();
 
     std::cout << "Init!\n";
 }
@@ -42,30 +44,30 @@ void Worker::ChangeRenderWindow()
 {
     //m_RenderWindowInteractor->TerminateApp();
     
-    std::cout << "m_Renderer: " << m_Renderer << std::endl;
-    std::cout << "m_RenderWindowInteractor: " << m_RenderWindowInteractor << std::endl;
+    std::cout << "m_Renderer: " << m_renderer << std::endl;
+    std::cout << "m_RenderWindowInteractor: " << m_renderWindowInteractor << std::endl;
 
 
-    m_Actor->GetProperty()->SetColor(1,0,0);
+    m_actor->GetProperty()->SetColor(1,0,0);
 
-    m_RenderWindow->Render();
+    m_renderWindow->Render();
 
 }
 
 void Worker::Start()
 {
-    m_RenderWindowInteractor->Start();
+    m_renderWindowInteractor->Start();
 
     std::cout << "Start!\n";
 }
 
 void Worker::Terminate()
 {
-    m_RenderWindowInteractor->TerminateApp(); // same to emscripten_cancel_main_loop
+    m_renderWindowInteractor->TerminateApp(); // same to emscripten_cancel_main_loop
 }
 
 void Worker::ReStart()
 {
-    m_RenderWindowInteractor->ReInitialize();
-    m_RenderWindowInteractor->Start();
+    m_renderWindowInteractor->ReInitialize();
+    m_renderWindowInteractor->Start();
 }

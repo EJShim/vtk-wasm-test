@@ -24,11 +24,10 @@ public:
 
     void ChangeRenderWindow();
 protected:
-    vtkSmartPointer<vtkRenderWindowInteractor> m_RenderWindowInteractor;
-    vtkSmartPointer<vtkRenderWindow> m_RenderWindow;
-    vtkSmartPointer<vtkActor> m_Actor;
-    vtkSmartPointer<vtkRenderer> m_Renderer;
-
+    vtkSmartPointer<vtkRenderWindowInteractor> m_renderWindowInteractor;
+    vtkSmartPointer<vtkRenderWindow> m_renderWindow;
+    vtkSmartPointer<vtkRenderer> m_renderer;
+    vtkSmartPointer<vtkActor> m_actor;
 };
 
 
