@@ -1,0 +1,55 @@
+<html>
+   <head>
+      <!-- Load WebAssembly module -->
+      <script type="text/javascript" src="build/changeCanvasForWASM.js"></script>
+   </head>
+   <body>
+      <canvas id="canvas" style="position: absolute; left: 0; top: 0; width:500px; height:500px; background-color: red;"></canvas>
+      <canvas id="canvas1" style="position: absolute; right: 0; top: 0; width:500px; height:500px; background-color: blue;"></canvas>
+      
+      <button id="button" style="position: absolute; left: 0; bottom: 0;"> update </button>
+
+      <script>
+        function $(id){ return document.getElementById(id); }
+        var workerObj = null;
+        var Module = null;
+
+        async function main(){
+          Module = {
+          canvas: (function () {
+            var canvas = document.getElementById('canvas');
+            canvas.addEventListener(
+              "webglcontextlost",
+              function (e) {
+                console.error('WebGL context lost. You will need to reload the page.');
+                e.preventDefault();
+              },
+              false
+            );
+            return canvas;
+          })(),
+          };
+
+          var app = await tester(Module);
+          console.log('App created');
+
+          console.log(app);
+          
+          workerObj = new app.Worker();
+          workerObj.Init();
+          workerObj.Start();
+          console.log( "StartWork!" );
+        }
+        
+        main();
+
+        // change left and right canvases.
+        $('button').onclick = function()
+        {
+          
+          workerObj.ChangeRenderWindow();
+          console.log( "StartWork!" );
+        }
+      </script>
+   </body>
+</html>

@@ -1,0 +1,18 @@
+services :
+  cmake :
+      image : kitware/vtk-wasm-sdk:wasm32-v9.3.1-3882-g06db27940f-20240817
+      volumes : 
+        - ./:/work
+      working_dir: /work/build
+      command : cmake /work -G Ninja -DVTK_DIR=/VTK-install/Release/lib/cmake/vtk -DCMAKE_BUILD_TYPE=Release
+  make :
+      image : kitware/vtk-wasm-sdk:wasm32-v9.3.1-3882-g06db27940f-20240817
+      volumes:
+        - ./:/work
+      working_dir: /work/build
+      command : ninja -j7
+      depends_on:
+        cmake:
+          condition: service_completed_successfully
+          restart: false
+  
